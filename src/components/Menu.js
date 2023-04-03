@@ -1,26 +1,27 @@
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
-import { Link } from 'react-router-dom'
+//  import { Link } from 'react-router-dom'
+import { LinkContainer } from 'react-router-bootstrap'
 
 function Menu() {
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
-        <Link to="/">
+        <LinkContainer to="/">
           <Navbar.Brand>Tienda online</Navbar.Brand>
-        </Link>
+        </LinkContainer>
 
         <Nav className="me-auto">
-          <Link to="/">
-            <Nav.Link href="">Inicio</Nav.Link>
-          </Link>
-          <Link to="/products">
-            <Nav.Link href="">Productos</Nav.Link>
-          </Link>
-          <Link to="/contact">
-            <Nav.Link href="">Contactar</Nav.Link>
-          </Link>
+          <LinkContainer to="/">
+            <Nav.Link>Inicio</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/products">
+            <Nav.Link>Productos</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/contact">
+            <Nav.Link>Contactar</Nav.Link>
+          </LinkContainer>
         </Nav>
       </Container>
     </Navbar>

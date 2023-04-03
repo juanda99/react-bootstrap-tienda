@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.scss'
 
+import Home from './pages/Home'
 import Contact from './pages/Contact'
 import Products from './pages/Products'
+import Product from './pages/Product'
+
 import Layout from './components/Layout'
-import Home from './pages/Home'
+
 import reportWebVitals from './reportWebVitals'
 
 const router = createBrowserRouter([
@@ -19,12 +22,16 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: 'products',
+        path: 'products/:category?/:subcategory?',
         element: <Products />,
       },
       {
         path: 'contact',
         element: <Contact />,
+      },
+      {
+        path: 'product/:id',
+        element: <Product />,
       },
     ],
   },
