@@ -1,25 +1,27 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 // import { useLocation } from 'react-router-dom'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import ProductsTable from '../components/ProductsTable'
-import OptionList from '../components/OptionList.js'
+import OptionGrid from '../components/OptionGrid.js'
 
 let uniqueCategories
 
 function Products() {
-  // let location = useLocation()
-  const { category: defaultCategory, subcategory: defaultSubcategory } =
-    useParams()
-  // const defaultCategory = location?.state?.category || ''
+  const { category, subcategory } = useParams()
+
+  const navigate = useNavigate()
   const [products, setProducts] = useState([])
-  const [category, setCategory] = useState(defaultCategory)
-  const [subcategory, setSubcategory] = useState(defaultSubcategory)
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/products/`).then(({ data }) => {
+    axios.get(`http://localhost:3005/products/`).then(({ data }) => {
       const categories = data.map((product) => product.masterCategory)
       uniqueCategories = [...new Set(categories)]
+      /*
+        uniqueCategories = ['category1', 'category2', 'category3']
+        uniqueCategories = [{name: 'category1', img:'ruta-img'}, {name: 'category2'}, {name: 'category3'}]
+      */
+
       setProducts(data)
     })
     // .catch((error) => )
@@ -29,11 +31,11 @@ function Products() {
     return <div>Cargando...</div>
   }
 
-  const selectCategory = (event) => {
-    setCategory(event.target.innerText)
-    setSubcategory('')
-  }
-  const selectSubcategory = (event) => setSubcategory(event.target.innerText)
+  const selectCategory = (event) =>
+    navigate(`/products/${event.target.innerText}`)
+
+  const selectSubcategory = (event) =>
+    navigate(`/products/${category}/${event.target.innerText}`)
 
   const uniqueSubcategories = [
     ...new Set(
@@ -51,18 +53,22 @@ function Products() {
     <>
       <h1>Productos</h1>
       <p>Selecciona alguna categoría para ver nuestros productos:</p>
-      <OptionList
-        items={uniqueCategories}
-        defaultItem={category}
-        onClick={selectCategory}
-      />
+      {!category && (
+        <OptionGrid
+          items={uniqueCategories}
+          defaultItem={category}
+          onClick={selectCategory}
+          goUp={false}
+        />
+      )}
       {category && (
         <>
           <p>Selecciona alguna subcategoría para ver nuestros productos:</p>
-          <OptionList
+          <OptionGrid
             items={uniqueSubcategories}
             defaultItem={subcategory}
             onClick={selectSubcategory}
+            goUp={true}
           />
         </>
       )}
